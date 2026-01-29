@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Customer Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+    body { background:#f8fafc; display:flex; height:100vh; color:#0f172a; }
+ 
+    /* SIDEBAR */
+    .sidebar { width:240px; background:#0f172a; color:#fff; padding:20px; }
+    .sidebar h2 { color:#38bdf8; margin-bottom:30px; }
+    .sidebar a { display:block; padding:12px; color:#cbd5f5; text-decoration:none; border-radius:8px; margin-bottom:8px; }
+    .sidebar a.active, .sidebar a:hover { background:#1e293b; color:#fff; }
+ 
+    /* MAIN */
+    .main { flex:1; padding:24px; overflow:auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+    .topbar h1 { font-size:22px; font-weight:600; }
+ 
+    /* PROFILE HEADER */
+    .profile-header {
+      background:#fff;
+      padding:20px;
+      border-radius:16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.04);
+      margin-bottom:20px;
+    }
+ 
+    .profile-info h3 { font-size:20px; font-weight:600; }
+    .profile-info p { font-size:14px; color:#64748b; }
+ 
+    .badges span {
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:600;
+      margin-left:8px;
+    }
+ 
+    .vip { background:#fef3c7; color:#92400e; }
+    .due { background:#fee2e2; color:#991b1b; }
+ 
+    /* GRID */
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+ 
+    .card {
+      background:#fff;
+      padding:18px;
+      border-radius:16px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.04);
+    }
+ 
+    .card h4 { font-size:15px; margin-bottom:10px; }
+    .metric { font-size:24px; font-weight:700; color:#2563eb; }
+    .muted { font-size:13px; color:#64748b; }
+ 
+    /* TABLE */
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th, td { padding:10px; text-align:left; }
+    th { background:#f1f5f9; font-weight:600; }
+    tr:not(:last-child) td { border-bottom:1px solid #e2e8f0; }
+ 
+    /* BUTTON */
+    .btn { padding:8px 14px; border:none; border-radius:10px; font-weight:500; cursor:pointer; }
+    .primary { background:#2563eb; color:#fff; }
+    .secondary { background:#e2e8f0; color:#0f172a; }
+</style>
+</head>
+<body>
+ 
+  <!-- SIDEBAR -->
+<aside class="sidebar">
+<h2>InventorySys</h2>
+<a href="#">Dashboard</a>
+<a href="#">Billing</a>
+<a href="#">Products</a>
+<a href="#">Inventory</a>
+<a class="active" href="#">Customers</a>
+<a href="#">Reports</a>
+</aside>
+ 
+  <!-- MAIN -->
+<main class="main">
+ 
+    <div class="topbar">
+<h1>Customer Profile</h1>
+</div>
+ 
+    <!-- PROFILE HEADER -->
+<section class="profile-header">
+<div class="profile-info">
+<h3>Rohit Sharma</h3>
+<p>📞 +91 98765 43210 • Joined: Jan 2025</p>
+</div>
+<div class="badges">
+<span class="vip">VIP Customer</span>
+<span class="due">₹450 Due</span>
+</div>
+</section>
+ 
+    <!-- METRICS -->
+<section class="grid">
+<div class="card">
+<h4>Total Spent</h4>
+<div class="metric">₹28,400</div>
+<div class="muted">Last 6 months</div>
+</div>
+<div class="card">
+<h4>Total Visits</h4>
+<div class="metric">42</div>
+<div class="muted">Avg. every 12 days</div>
+</div>
+<div class="card">
+<h4>Favorite Category</h4>
+<div class="metric">Electronics</div>
+<div class="muted">Most purchased</div>
+</div>
+<div class="card">
+<h4>Next Likely Visit</h4>
+<div class="metric">In 5 days</div>
+<div class="muted">AI prediction</div>
+</div>
+</section>
+ 
+    <!-- PURCHASE HISTORY -->
+<section class="card" style="margin-top:20px;">
+<h4>Recent Purchases</h4>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Invoice</th>
+<th>Amount</th>
+<th>Payment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12 Jan 2026</td>
+<td>#INV-1023</td>
+<td>₹1,240</td>
+<td>UPI</td>
+</tr>
+<tr>
+<td>02 Jan 2026</td>
+<td>#INV-0991</td>
+<td>₹860</td>
+<td>Cash</td>
+</tr>
+</tbody>
+</table>
+</section>
+ 
+    <!-- ACTIONS -->
+<section class="grid" style="margin-top:20px;">
+<div class="card">
+<h4>Smart Actions</h4>
+<p class="muted">Quick customer-specific actions</p>
+<br>
+<button class="btn primary">Send Thank You</button>
+<button class="btn secondary">Offer Discount</button>
+</div>
+<div class="card">
+<h4>Notifications</h4>
+<p class="muted">Subscribed alerts</p>
+<br>
+        ✔ Stock alerts enabled<br>
+        ✔ Bill SMS enabled
+</div>
+</section>
+ 
+  </main>
+ 
+</body>
+</html>

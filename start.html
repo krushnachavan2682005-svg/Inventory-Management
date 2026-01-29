@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>POS – Customer Search</title>
+
+  <style>
+    :root {
+
+      --primary: #4f46e5;
+
+      --bg: #f8fafc;
+
+      --card: #ffffff;
+
+      --muted: #64748b;
+
+      --border: #e5e7eb;
+
+    }
+
+    * {
+
+      box-sizing: border-box;
+
+      font-family: "Inter", system-ui, sans-serif;
+
+    }
+
+    body {
+
+      margin: 0;
+
+      background: var(--bg);
+
+      padding: 40px;
+
+    }
+
+    /* ================= SEARCH ================= */
+
+    .search-wrapper {
+
+      max-width: 720px;
+
+      margin: auto;
+
+    }
+
+    .search-box {
+
+      background: var(--card);
+
+      padding: 18px;
+
+      border-radius: 14px;
+
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+
+    }
+
+    .search-box input {
+
+      width: 100%;
+
+      padding: 16px 18px;
+
+      font-size: 18px;
+
+      border-radius: 12px;
+
+      border: 1px solid var(--border);
+
+      outline: none;
+
+    }
+
+    .search-box input:focus {
+
+      border-color: var(--primary);
+
+    }
+
+    /* ================= STATES ================= */
+
+    .state-card {
+
+      margin-top: 25px;
+
+      background: var(--card);
+
+      padding: 30px;
+
+      border-radius: 18px;
+
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+
+    }
+
+    /* ================= PROFILE ================= */
+
+    .profile-header {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 18px;
+
+    }
+
+    .avatar {
+
+      height: 72px;
+
+      width: 72px;
+
+      border-radius: 50%;
+
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+
+      color: #fff;
+
+      font-size: 26px;
+
+      font-weight: 700;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+    }
+
+    .profile-header h2 {
+
+      margin: 0;
+
+    }
+
+    .profile-header p {
+
+      margin: 4px 0 0;
+
+      color: var(--muted);
+
+    }
+
+    /* ================= METRICS ================= */
+
+    .metrics {
+
+      display: grid;
+
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+      gap: 18px;
+
+      margin-top: 30px;
+
+    }
+
+    .metric {
+
+      background: #f9fafb;
+
+      padding: 18px;
+
+      border-radius: 14px;
+
+    }
+
+    .metric span {
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+    }
+
+    .metric h3 {
+
+      margin: 6px 0 0;
+
+    }
+
+    /* ================= TABLE ================= */
+
+    .table-card {
+
+      margin-top: 30px;
+
+    }
+
+    .table-card h4 {
+
+      margin-bottom: 12px;
+
+    }
+
+    table {
+
+      width: 100%;
+
+      border-collapse: collapse;
+
+    }
+
+    th {
+
+      text-align: left;
+
+      font-size: 13px;
+
+      color: var(--muted);
+
+      padding-bottom: 10px;
+
+    }
+
+    td {
+
+      padding: 12px 0;
+
+      border-bottom: 1px solid var(--border);
+
+    }
+
+    /* ================= ACTIONS ================= */
+
+    .actions {
+
+      display: flex;
+
+      gap: 14px;
+
+      margin-top: 30px;
+
+    }
+
+    .btn {
+
+      padding: 12px 18px;
+
+      border-radius: 10px;
+
+      border: none;
+
+      cursor: pointer;
+
+      font-weight: 600;
+
+    }
+
+    .primary {
+
+      background: var(--primary);
+
+      color: white;
+
+    }
+
+    .secondary {
+
+      background: #eef2ff;
+
+      color: var(--primary);
+
+    }
+
+    /* ================= NOT FOUND ================= */
+
+    .not-found {
+
+      text-align: center;
+
+    }
+
+    .not-found h3 {
+
+      margin-top: 0;
+
+    }
+
+    .not-found p {
+
+      color: var(--muted);
+
+      margin-bottom: 20px;
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="search-wrapper">
+
+    <!-- SEARCH -->
+    <div class="search-box">
+      <input id="searchInput" placeholder="Search customer by mobile number or name">
+    </div>
+
+    <!-- NOT FOUND -->
+    <div id="notFound" class="state-card not-found" style="display:none;">
+      <h3>Customer not found</h3>
+      <p>No matching customer record</p>
+      <button id="addcustomer" class="btn primary">+ Add New Customer</button>
+      <button class="btn secondary">Walk-in Sale</button>
+    </div>
+
+    <!-- CUSTOMER PROFILE -->
+    <div id="customerCard" class="state-card" style="display:none;">
+
+      <div class="profile-header">
+        <div class="avatar" id="letter">R</div>
+        <div>
+          <h2 id="name">Rohit Sharma</h2>
+          <p id="phone">📞 9876543210</p>
+        </div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <span>Total Orders</span>
+          <h3 id="orders">15</h3>
+        </div>
+        <div class="metric">
+          <span>Total Purchase</span>
+          <h3 id="value">₹25,400</h3>
+        </div>
+        <div class="metric">
+          <span>Last Purchase</span>
+          <h3 id="last">3 days ago</h3>
+        </div>
+        <div class="metric">
+          <span>Customer Type</span>
+          <h3 id="customertype">Premium</h3>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h4>Recent Purchases</h4>
+        <table>
+          <tr>
+            <th>Date</th>
+            <th>Invoice</th>
+            <th>Amount</th>
+          </tr>
+          <tbody id="tbody">
+            <tr>
+              <td>12 Jan 2026</td>
+              <td>#INV-1023</td>
+              <td>₹2,450</td>
+            </tr>
+            <tr>
+              <td>03 Jan 2026</td>
+              <td>#INV-1015</td>
+              <td>₹1,980</td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+      <div class="actions">
+        <button id="generatebill" class="btn primary">Generate Bill</button>
+        <button class="btn secondary">Edit</button>
+        <button class="btn secondary">WhatsApp Bill</button>
+        <button class="btn secondary">Full History</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+
+    let customers = [];
+
+    fetch("http://localhost:3500/customers")
+      .then(res => res.json())
+      .then(data => {
+        customers = data; // store all customers
+        console.log(customers);
+
+      });
+
+    const searchInput = document.getElementById("searchInput");
+    const customerCard = document.getElementById("customerCard");
+    const notFound = document.getElementById("notFound");
+    let selectedCustomerId = null;
+
+    searchInput.addEventListener("input", function () {
+      const value = searchInput.value.trim().toLowerCase();
+
+      if (value === "") {
+        customerCard.style.display = "none";
+        notFound.style.display = "none";
+        return;
+      }
+
+      const found = customers.find(c =>
+        c.phone.includes(value) ||
+        c.name.toLowerCase().includes(value)
+      );
+
+      if (found) {
+        document.getElementById("name").innerText = found.name;
+        document.getElementById("letter").innerText=found.name.charAt(0).toUpperCase();
+        document.getElementById("phone").innerText = "📞 " + found.phone;
+
+        let totalpurchase = found.totalpurchase
+        if (totalpurchase > 10000) {
+          document.getElementById("customertype").innerText = "😎 Premium"
+        } else {
+
+          document.getElementById("customertype").innerText = "😊 Regular"
+        }
+        document.getElementById("value").innerText = found.totalpurchase
+        let tbody = document.getElementById("tbody")
+        let tdddate = document.createElement("td")
+        let tdinvoice = document.createElement("td")
+        let tdamount = document.createElement("td")
+        let date = new Date;
+        tdddate.innerText = date.toLocaleDateString()
+        let invoice = Math.floor(1000 + Math.random() * 9000);
+
+        tdinvoice.innerText = "#INV-" + invoice
+
+
+
+        customerCard.style.display = "block";
+        notFound.style.display = "none";
+        selectedCustomerId = found.id;
+
+      } else {
+        customerCard.style.display = "none";
+        notFound.style.display = "block";
+      }
+    });
+    let addcutomer = document.getElementById("addcustomer")
+    addcutomer.addEventListener("click", function () {
+      window.location.replace("AddingCustomer.html")
+    })
+    let generatebill = document.getElementById("generatebill");
+
+    generatebill.addEventListener("click", function () {
+      if (!selectedCustomerId) {
+        alert("Please select a customer first");
+        return;
+      }
+
+      window.location.href = `billingpos.html?customerId=${selectedCustomerId}`;
+      localStorage.setItem("customerId", selectedCustomerId);
+
+       
+     
+    });
+
+
+
+  </script>
+
+
+
+</body>
+
+</html>

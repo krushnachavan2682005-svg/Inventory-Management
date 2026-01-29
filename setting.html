@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+ 
+  <style>
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+
+    body { display:flex; height:100vh; background:#f8fafc; color:#0f172a; }
+ 
+    /* SIDEBAR */
+
+    .sidebar { width:240px; background:#0f172a; color:#fff; padding:20px; }
+
+    .sidebar h2 { color:#38bdf8; margin-bottom:30px; }
+
+    .sidebar a { display:block; padding:12px; color:#cbd5f5; text-decoration:none; border-radius:8px; margin-bottom:8px; }
+
+    .sidebar a.active, .sidebar a:hover { background:#1e293b; color:#fff; }
+ 
+    /* MAIN */
+
+    .main { flex:1; padding:24px; overflow:auto; }
+ 
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+
+    .topbar h1 { font-size:22px; font-weight:600; }
+ 
+    .card { background:#fff; padding:20px; border-radius:14px; box-shadow:0 8px 20px rgba(0,0,0,0.04); margin-bottom:20px; }
+
+    .form-group { margin-bottom:16px; display:flex; flex-direction:column; }
+
+    .form-group label { margin-bottom:6px; font-weight:500; }
+
+    .form-group input, .form-group select { padding:10px; border-radius:10px; border:1px solid #e2e8f0; }
+
+    .btn { background:#2563eb; color:#fff; padding:10px 16px; border:none; border-radius:10px; font-weight:500; cursor:pointer; }
+</style>
+</head>
+<body>
+ 
+  <aside class="sidebar">
+<h2>InventorySys</h2>
+<a href="dashboard.html">Dashboard</a>
+<a href="billingpos.html">Billing (POS)</a>
+<a href="Products.html">Products</a>
+<a href="inventory.html">Inventory</a>
+<a href="customer.html">Customer</a>
+<a href="report.html">Reports</a>
+<a class="active" href="#">Settings</a>
+</aside>
+ 
+  <main class="main">
+ 
+    <div class="topbar">
+<h1>Settings</h1>
+</div>
+ 
+    <!-- User Settings -->
+<section class="card">
+<h3>User Settings</h3>
+<div class="form-group">
+<label>Username</label>
+<input type="text" value="admin" />
+</div>
+<div class="form-group">
+<label>Email</label>
+<input type="email" value="admin@example.com" />
+</div>
+<div class="form-group">
+<label>Password</label>
+<input type="password" placeholder="Enter new password" />
+</div>
+<button class="btn">Update Profile</button>
+</section>
+ 
+    <!-- System Settings -->
+<section class="card">
+<h3>System Settings</h3>
+<div class="form-group">
+<label>Currency</label>
+<select>
+<option>₹ - INR</option>
+<option>$ - USD</option>
+<option>€ - EUR</option>
+</select>
+</div>
+<div class="form-group">
+<label>Tax Rate (%)</label>
+<input type="number" value="18" />
+</div>
+<div class="form-group">
+<label>Low Stock Alert Threshold</label>
+<input type="number" value="10" />
+</div>
+<button class="btn">Save Settings</button>
+</section>
+ 
+  </main>
+ 
+</body>
+</html>
+
+ 

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Customer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #1f2937;
+    }
+
+    .card {
+      background: #ffffff;
+      width: 420px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 24px 26px 28px;
+    }
+
+    .header {
+      margin-bottom: 20px;
+    }
+
+    .header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn.secondary {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .btn.primary {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .btn.primary:hover {
+      background: #1e40af;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: -6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h2>Add Customer</h2>
+      <p>Enter customer details to track purchases and balances</p>
+    </div>
+
+    <form>
+      <div>
+        <label>Customer Name</label>
+        <input type="text" id="name" placeholder="e.g. Rahul Sharma" />
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label>Phone Number</label>
+          <input type="tel" id="phone" maxlength="10" placeholder="+91 98765 43210" />
+        </div>
+        <div>
+          <label>Email</label>
+          <input id="email" type="email" placeholder="rahul@email.com" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label>Total Purchase (₹)</label>
+          <input type="number" id="ttlpurchase" placeholder="0.00" />
+          <div class="hint"></div>
+        </div>
+        <div>
+          <label>Outstanding Amount (₹)</label>
+          <input id="outstanding" type="number" placeholder="0.00" />
+          <div class="hint"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn secondary">Cancel</button>
+        <button type="button" id="submit" class="btn primary">Save Customer</button>
+      <button type="button" id="back" class="btn danger">Back to page</button>
+      </div>
+    </form>
+  </div>
+  <script>
+let back=document.getElementById("back")
+back.addEventListener("click",function(){
+  window.location.replace("start.html")
+})
+let name = document.getElementById("name");
+let phone = document.getElementById("phone");
+let email = document.getElementById("email");
+let ttlpurchase = document.getElementById("ttlpurchase");
+let outstanding = document.getElementById("outstanding");
+let btn = document.getElementById("submit");
+
+btn.addEventListener("click", function () {
+ if(name.value=="" || phone.value=="" || email.value==""){
+  alert("invalid please enter the all the information")
+ }else{
+  fetch("http://localhost:3500/customer", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: name.value,
+      phone: phone.value,
+      email: email.value,
+      totalpurchase: ttlpurchase.value ||0,
+      outstanding: outstanding.value|| 0
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+    alert("Customer Added Successfully");
+  })
+  .catch(err => console.error(err));
+  
+ }
+
+  
+});
+
+
+  </script>
+</body>
+</html>

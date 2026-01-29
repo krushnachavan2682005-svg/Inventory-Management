@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventory Management</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      display: flex;
+      height: 100vh;
+      color: #0f172a;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 240px;
+      background: #0f172a;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      color: #38bdf8;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px;
+      color: #cbd5f5;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar a.active,
+    .sidebar a:hover {
+      background: #1e293b;
+      color: #fff;
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      padding: 24px;
+      overflow: auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .topbar h1 {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    /* CARD */
+    .card {
+      background: #fff;
+      padding: 18px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .card h4 {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .metric {
+      font-size: 26px;
+      font-weight: 700;
+      color: #2563eb;
+    }
+
+    .muted {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* STATUS BADGES */
+    .badge {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .ok {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .low {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .out {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 600;
+    }
+
+    tr:not(:last-child) td {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* BUTTON */
+    .btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .success {
+      background: #22c55e;
+      color: #fff;
+    }
+
+    .warning {
+      background: #f59e0b;
+      color: #fff;
+    }
+
+    /* SWITCH */
+    .switch {
+      width: 42px;
+      height: 22px;
+      background: #cbd5f5;
+      border-radius: 999px;
+      position: relative;
+    }
+
+    .switch::after {
+      content: '';
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 22px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>InventorySys</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="Products.html">Products</a>
+    <a href="billingpos.html">Billing</a>
+    <a class="active" href="#">Inventory</a>
+    <a href="customer.html">Customers</a>
+    <a href="report.html">Reports</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <h1>Inventory Control Center</h1>
+      <button class="btn primary">View Purchase Orders</button>
+    </div>
+
+    <!-- INVENTORY OVERVIEW -->
+    <section class="grid">
+     
+      <div class="card">
+        <h4>Low Stock Alerts 🔔</h4>
+        <div id="lowstock" class="metric">12</div>
+        <div class="muted">Require attention</div>
+      </div>
+
+      
+
+      <div class="card">
+        <h4>Pending POs 🧾</h4>
+        <div id="po" class="metric">5</div>
+        <div class="muted">Awaiting delivery</div>
+      </div>
+    </section>
+
+    <!-- INVENTORY TABLE -->
+    <section class="card" style="margin-top:20px;">
+      <h4>Live Inventory Status</h4>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Current Stock</th>
+            <th>Status</th>
+            
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="tbody">
+          <tr>
+            <td>Bluetooth Speaker</td>
+            <td>18</td>
+            <td><span class="badge low">Low</span></td>
+           
+            <td>
+              <div class="switch"></div>
+            </td>
+            <td><button class="btn warning">Reorder</button></td>
+          </tr>
+
+          <tr>
+            <td>LED TV 42"</td>
+            <td>0</td>
+            <td><span class="badge out">Out</span></td>
+         
+            <td>
+              <div class="switch"></div>
+            </td>
+            <td><button class="btn primary">Create PO</button></td>
+          </tr>
+
+          <tr>
+            <td>USB Cable</td>
+            <td>240</td>
+            <td><span class="badge ok">Healthy</span></td>
+          
+            <td>
+              <div class="switch"></div>
+            </td>
+            <td><button class="btn secondary">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- INSIGHTS -->
+
+    <!-- TOP PERFORMER PRODUCTS -->
+    <div class="card">
+      <h4>🏆 Top Performer Products</h4>
+      <p class="muted">Based on last 30 days sales</p>
+
+      <div style="margin-top:12px;">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            🥇 <strong>USB Cable</strong><br>
+            <span class="muted">Sold 420 units</span>
+          </div>
+          <span class="badge ok">Fast Moving</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            🥈 <strong>Bluetooth Speaker</strong><br>
+            <span class="muted">Revenue ₹1,24,000</span>
+          </div>
+          <span class="badge low">Low Stock Risk</span>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            🥉 <strong>LED TV 42"</strong><br>
+            <span class="muted">Demand ↑ 18%</span>
+          </div>
+          <span class="badge ok">Trending</span>
+        </div>
+
+      </div>
+    </div>
+  
+   <script>
+  const lowstock = 10;
+  const tbody = document.getElementById("tbody");
+
+  fetch("http://localhost:3000/allproduct")
+    .then(res => res.json())
+    .then(products => {
+
+      tbody.innerHTML = ""; // clear static rows
+      let totalproduct=[]
+  let po=document.getElementById("po")
+      products.forEach(product => {
+
+        if (product.initialstock <= lowstock) {
+
+          const tr = document.createElement("tr");
+          totalproduct.push(product.productname)
+
+          // Product
+          const tdproduct = document.createElement("td");
+          tdproduct.innerText = product.productname;
+
+          // Stock
+          const tdstock = document.createElement("td");
+          tdstock.innerText = product.initialstock;
+
+          // Status
+          const tdstatus = document.createElement("td");
+          const badge = document.createElement("span");
+po.innerText=0
+          if (product.initialstock === 0) {
+            badge.className = "badge out";
+            badge.innerText = "Out";
+            
+          } else {
+            badge.className = "badge low";
+            badge.innerText = "Low";
+          }
+          tdstatus.appendChild(badge);
+
+          // Auto reorder
+          const tdautoreorder = document.createElement("td");
+          const toggle = document.createElement("div");
+          toggle.className = "switch";
+          tdautoreorder.appendChild(toggle);
+
+          // Action
+          const tdaction = document.createElement("td");
+          const btn = document.createElement("button");
+          btn.addEventListener("click",function(){
+            tr.remove()
+          })
+          if (product.initialstock === 0) {
+            btn.className = "btn primary";
+            btn.innerText = "Create PO";
+          } else {
+            btn.className = "btn warning";
+            btn.innerText = "Reorder";
+          }
+          tdaction.appendChild(btn);
+
+          // Append all
+          tr.append(
+            tdproduct,
+            tdstock,
+            tdstatus,
+         
+            tdaction
+          );
+
+          tbody.appendChild(tr);
+        }
+      });
+      let lowstk=document.getElementById("lowstock")
+      lowstk.innerText=totalproduct.length
+    
+      
+      
+    })
+    .catch(err => console.error(err));
+</script>
+
+
+    
+
+  </main>
+</body>
+
+</html>

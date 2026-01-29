@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .invoice {
+            width: 380px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* CUSTOMER INFO */
+        .customer {
+            margin-bottom: 16px;
+            font-size: 14px;
+           
+        }
+
+        .customer strong {
+            color: #0f172a;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            padding: 8px 0;
+        }
+
+        th {
+            text-align: left;
+            color: #64748b;
+            font-weight: 600;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        td:last-child,
+        th:last-child {
+            text-align: right;
+        }
+
+        tr:not(:last-child) td {
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        /* TOTAL */
+        .total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 16px 0;
+        }
+
+        /* THANK YOU BOX */
+        .thankyou {
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .thankyou h4 {
+            color: #0f172a;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .thankyou p {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 16px;
+        }
+
+        /* PRINT FRIENDLY */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+
+            .invoice {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="invoice">
+
+        <!-- HEADER -->
+        <div class="header">
+            <h2>InventorySys</h2>
+            <p>GSTIN: 27ABCDE1234F1Z5</p>
+            <p>Pune, Maharashtra</p>
+        </div>
+
+        <!-- CUSTOMER -->
+        <div class="customer">
+            <p style="margin-bottom: 5px;" id="invoice"><strong>Invoice:</strong> #INV-1045</p>
+            <p  style="margin-bottom: 5px;" id="firstname"> Rohit Sharma</p>
+            <p  style="margin-bottom: 5px;" id="date"><strong>Date:</strong> 25 Jan 2026</p>
+            <p id="time"></p>
+        </div>
+
+        <!-- ITEMS -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Amt</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+
+        <!-- TOTAL -->
+        <div class="total">
+            <span>Total</span>
+            <span id="total">₹2,900</span>
+        </div>
+
+        <!-- THANK YOU -->
+        <div class="thankyou">
+            <h4 id="name">Thank you, Rohit! ❤️</h4>
+            <p>We truly appreciate your purchase.</p>
+
+            <div id="msg" class="message">
+                🎧 Enjoy your entertainment!
+            </div>
+
+            <p style="margin-top:8px;">Visit Again 😊</p>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            Powered by InventorySys • Support: +91 90000 00000
+        </div>
+
+    </div>
+    <script>
+        const Id = localStorage.getItem("customerId");
+
+        fetch("http://localhost:3500/customers")
+            .then(res => res.json())
+            .then(customers => {
+                let customer = customers.find(e =>
+                    String(e.id) === String(Id)
+                )
+                if (!customer) {
+                    alert("Customer not found");
+                    return;
+                }
+
+                console.log("Customer Data:", customer);
+                let nameEl = document.getElementById("name");
+                nameEl.innerText = `Thank you, ${customer.name}! ❤️`;
+                let firstname = document.getElementById("firstname");
+                firstname.innerText = `Name:${customer.name}`;
+                let today = new Date
+                let date = today.toLocaleDateString()
+                let det = document.getElementById("date")
+                det.innerText = `Date ${date}`
+                let time=document.getElementById("time")
+                time.innerText="Time:"+today.toLocaleTimeString()
+                let invoice = document.getElementById("invoice")
+                let a = Math.floor(Math.random() * 1000)
+                invoice.innerText = `Invoice:#INV-${a}`
+                const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+                const billTotal = localStorage.getItem("billTotal");
+                console.log(billTotal);
+
+                let total = document.getElementById("total")
+                total.innerText = "₹" + billTotal
+
+                console.log(cartItems, billTotal);
+
+                cartItems.forEach(element => {
+                    let tbody = document.getElementById("tbody")
+                    let tr = document.createElement("tr")
+                    let itemname = document.createElement("td")
+                    let itemqty = document.createElement("td")
+                    let amt = document.createElement("td")
+
+                    itemname.innerText = element.name
+                    itemqty.innerText = element.qty
+                    amt.innerText = element.total
+                    tr.appendChild(itemname)
+                    tr.appendChild(itemqty)
+                    tr.appendChild(amt)
+                    tbody.appendChild(tr)
+
+                });
+                let arr = [
+                    "Thank you for choosing us. Your trust is our greatest reward. 🌸",
+                    "Every purchase supports our journey—thank you for being part of it. 🤍",
+                    "Small bills, big smiles. Thank you for shopping with us! ✨",
+                    "Thanks for stopping by! We’re always happy to serve you. 😊",
+                    "Quality products, heartfelt service—thank you for your support. 🌿"
+                ];
+
+                let message = document.getElementById("msg");
+                let randomIndex = Math.floor(Math.random() * arr.length);
+                message.innerText = arr[randomIndex];
+            })
+    </script>
+
+</body>
+
+</html>

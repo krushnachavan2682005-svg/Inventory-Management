@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reports</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+ 
+  <style>
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+
+    body { display:flex; height:100vh; background:#f8fafc; color:#0f172a; }
+ 
+    /* SIDEBAR */
+
+    .sidebar { width:240px; background:#0f172a; color:#fff; padding:20px; }
+
+    .sidebar h2 { color:#38bdf8; margin-bottom:30px; }
+
+    .sidebar a { display:block; padding:12px; color:#cbd5f5; text-decoration:none; border-radius:8px; margin-bottom:8px; }
+
+    .sidebar a.active, .sidebar a:hover { background:#1e293b; color:#fff; }
+ 
+    /* MAIN */
+
+    .main { flex:1; padding:24px; overflow:auto; }
+ 
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+
+    .topbar h1 { font-size:22px; font-weight:600; }
+
+    .filters { display:flex; gap:12px; margin-bottom:16px; }
+
+    .filters input, .filters select { padding:10px; border-radius:10px; border:1px solid #e2e8f0; }
+ 
+    .card { background:#fff; padding:20px; border-radius:14px; box-shadow:0 8px 20px rgba(0,0,0,0.04); margin-bottom:20px; }
+
+    table { width:100%; border-collapse:collapse; }
+
+    th, td { padding:12px; font-size:14px; text-align:left; }
+
+    th { background:#f1f5f9; font-weight:600; }
+
+    tr:not(:last-child) td { border-bottom:1px solid #e2e8f0; }
+ 
+    .btn { background:#2563eb; color:#fff; padding:10px 16px; border:none; border-radius:10px; font-weight:500; cursor:pointer; }
+
+    .summary { display:flex; justify-content:space-between; margin-top:10px; }
+</style>
+</head>
+<body>
+ 
+  <aside class="sidebar">
+<h2>InventorySys</h2>
+<a href="dashboard.html">Dashboard</a>
+<a href="billingpos.html">Billing (POS)</a>
+<a href="Products.html">Products</a>
+<a href="inventory.html">Inventory</a>
+<a href="customer.html">Customer</a>
+<a class="active" href="#">Reports</a>
+<a href="setting.html">Settings</a>
+</aside>
+ 
+  <main class="main">
+ 
+    <div class="topbar">
+<h1>Reports</h1>
+<button class="btn">Generate Report</button>
+</div>
+ 
+    <div class="filters">
+<input type="date" />
+<input type="date" />
+<select>
+<option>Report Type</option>
+<option>Daily Sales</option>
+<option>Monthly Sales</option>
+<option>Product-wise Sales</option>
+<option>Profit Report</option>
+<option>Tax Report</option>
+</select>
+</div>
+ 
+    <section class="card">
+<h3>Sales Report</h3>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Invoice</th>
+<th>Customer</th>
+<th>Total Amount</th>
+<th>Payment Mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-01-20</td>
+<td>#INV-001</td>
+<td>Yash Chavan</td>
+<td>₹1,200</td>
+<td>Cash</td>
+</tr>
+<tr>
+<td>2026-01-20</td>
+<td>#INV-002</td>
+<td>Arjun Patil</td>
+<td>₹850</td>
+<td>Card</td>
+</tr>
+</tbody>
+</table>
+</section>
+ 
+    <section class="card summary">
+<div><strong>Total Sales:</strong> ₹2,050</div>
+<div><strong>Total Invoices:</strong> 2</div>
+</section>
+ 
+  </main>
+ 
+</body>
+</html>
+
+ 

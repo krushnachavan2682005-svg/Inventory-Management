@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1" id="productTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Mobile</td>
+      <td>12000</td>
+      <td>
+        <button onclick="editRow(this)">Edit</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<script>
+    function editRow(button) {
+  const row = button.closest("tr");
+  const cells = row.querySelectorAll("td");
+
+  // If already in edit mode → save
+  if (button.innerText === "Save") {
+    cells.forEach((cell, index) => {
+      if (index !== cells.length - 1) {
+        const input = cell.querySelector("input");
+        cell.innerText = input.value;
+      }
+    });
+
+    button.innerText = "Edit";
+    return;
+  }
+
+  // Switch to edit mode
+  cells.forEach((cell, index) => {
+    if (index !== cells.length - 1) {
+      const value = cell.innerText;
+      cell.innerHTML = `<input type="text" value="${value}" />`;
+    }
+  });
+
+  button.innerText = "Save";
+}
+
+</script>
+</body>
+</html>

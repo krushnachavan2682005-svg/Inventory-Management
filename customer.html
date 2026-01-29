@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 240px;
+      background: #0f172a;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      color: #38bdf8;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px;
+      color: #cbd5f5;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar a.active,
+    .sidebar a:hover {
+      background: #1e293b;
+      color: #fff;
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      padding: 24px;
+      overflow: auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .topbar h1 {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .btn {
+      background: #2563eb;
+      color: #fff;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .filters input {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      flex: 1;
+    }
+
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 600;
+    }
+
+    tr:not(:last-child) td {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .actions button {
+      margin-right: 6px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .edit {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .delete {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <h2>InventorySys</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="billingpos.html">Billing (POS)</a>
+    <a href="Products.html">Products</a>
+    <a href="inventory.html">Inventory</a>
+    <a class="active" href="#">Customers</a>
+    <a href="report.html">Report </a>
+    <a href="setting.html">Settings</a>
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <h1>Customers</h1>
+      <button id="addcustomer" class="btn">+ Add Customer</button>
+    </div>
+
+    <div class="filters">
+      <input id="search" type="text" placeholder="Search customer 👤 (name, phone, email)" />
+    </div>
+
+    <section class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Total Purchase</th>
+            <th>Outstanding</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+</body>
+<script>
+  let tbody=document.getElementById("tbody")
+  
+    fetch("http://localhost:3500/customers")
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        data.forEach(element => {
+          
+          
+        
+          let tr=document.createElement("tr")
+          let tdname=document.createElement("td")
+          let tdphone=document.createElement("td")
+          let tdemail=document.createElement("td")
+          let tdtotalpurchase=document.createElement("td")
+          let tdoutstanding=document.createElement("td")
+          let tdactions=document.createElement("td")
+          tdactions.classList.add("actions")
+          let btn1=document.createElement("button")
+          btn1.innerText="Edit"
+          btn1.classList.add("edit")
+          let btn2=document.createElement("button")
+          btn2.innerText="Delete"
+          btn2.classList.add("delete")
+          tdactions.appendChild(btn1)
+          tdactions.appendChild(btn2)
+
+          tdname.innerText=element.name;
+          tdphone.innerText=element.phone;
+          tdemail.innerText=element.email;
+          tdtotalpurchase.innerText= "₹" +element.totalpurchase;
+          tdoutstanding.innerText= "₹" +element.outstanding;
+
+
+
+          tr.appendChild(tdname)
+          tr.appendChild(tdphone)
+          tr.appendChild(tdemail)
+          tr.appendChild(tdtotalpurchase)
+          tr.appendChild(tdoutstanding)
+          tr.appendChild(tdactions)
+            tbody.appendChild(tr)
+          
+btn1.addEventListener("click",function(){
+
+  window.location.replace("editcustomer.html")
+      window.location.href = `editcustomer.html?id=${element.id}`;
+            
+})
+          
+  // Delete 
+  
+          btn2.addEventListener("click", function () {
+            console.log("clikc");
+
+            fetch(`http://localhost:3500/delete-customer/${element.id}`, {
+              method: "DELETE"
+            })
+              .then(res => res.json())
+              .then(data => {
+
+                tr.remove()
+                alert(data.message);
+              })
+              .catch(err => console.error(err));
+          })
+        
+        });
+
+          })
+          
+          
+          
+          
+          let search = document.getElementById("search")
+ 
+      
+     
+      search.addEventListener("input",function(){
+        let value = search.value.toLowerCase()
+         let t = document.querySelectorAll("tbody tr");
+         t.forEach(e => {
+        let name = e.cells[0].innerText.toLowerCase();
+        let phone= e.cells[2].innerText.toLowerCase();
+        let email = e.cells[3].innerText.toLowerCase();
+
+        if (name.includes(value) || phone.includes(value) || email.includes(value)) {
+          e.style.display = ""
+        }
+        else {
+          e.style.display = "none"
+        }
+
+      })
+    })
+
+
+     
+     
+let addcustomer=document.getElementById("addcustomer")
+addcustomer.addEventListener("click",function(){
+window.location.replace("AddingCustomer.html");
+})
+
+
+</script>
+</html>

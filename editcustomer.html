@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Customer</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: linear-gradient(180deg, #0f172a, #020617);
+            color: #fff;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            color: #38bdf8;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: #cbd5f5;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .sidebar a.active,
+        .sidebar a:hover {
+            background: #1e293b;
+            color: #fff;
+        }
+
+        /* ===== MAIN ===== */
+        .main {
+            flex: 1;
+            padding: 30px;
+
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 650px;
+        }
+
+        .card h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        /* ===== FORM ===== */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #334155;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        /* ===== BUTTONS ===== */
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-save {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-cancel {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-cancel:hover {
+            background: #d1d5db;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+        <div class="header">
+            <h1>Edit Customer</h1>
+        </div>
+
+        <div class="card">
+            <h3>Customer Details</h3>
+
+            <form>
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input id="name" type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input id="phone" type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input id="email" type="email">
+                </div>
+
+                <div class="form-group">
+                    <label>Total Purchase (₹)</label>
+                    <input id="totalpurchase" type="number">
+                </div>
+
+                <div class="form-group">
+                    <label>Outstanding Amount (₹)</label>
+                    <input id="outstandingamount" type="number" value="0">
+                </div>
+
+                <div class="actions">
+                    <button id="save" class="btn btn-save">Save Changes</button>
+                    <button class="btn btn-cancel" type="button" onclick="back()">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search)
+        console.log(params.get("id"));
+
+       
+
+        fetch(`http://localhost:3500/editcustomer/${params.get("id")}`)
+            .then(res => res.json())
+            .then(data => {
+
+                let name = document.getElementById("name").value = data.name;
+                let phone = document.getElementById("phone").value = data.phone;
+                let email = document.getElementById("email").value = data.email;
+                let totalpurchase = document.getElementById("totalpurchase").value = data.totalpurchase;
+                let outstandingamount = document.getElementById("outstandingamount").value = data.outstanding
+
+
+                
+            })
+             let save = document.getElementById("save")
+        save.addEventListener("click",function(e){ 
+       e.preventDefault()
+       updateCustomer()
+
+            })
+        function updateCustomer() {
+  const id = new URLSearchParams(window.location.search).get("id");
+
+  const data = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    email: document.getElementById("email").value,
+    totalpurchase: document.getElementById("totalpurchase").value,
+    outstanding: document.getElementById("outstandingamount").value
+    
+  };
+
+
+
+
+  fetch(`http://localhost:3500/updatecustomer/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+    .then(res => res.json())
+    .then(result => {
+      alert(result.message);
+      window.location.replace("customer.html");
+    })
+    .catch(err => console.error(err));
+}
+
+            
+      
+
+
+
+
+
+
+        function back() {
+            window.location.replace("customer.html")
+        }
+
+    </script>
+</body>
+
+</html>

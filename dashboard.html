@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Inventory Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+ 
+  <style>
+
+    /* ===== RESET ===== */
+
+    * {
+
+      margin: 0;
+
+      padding: 0;
+
+      box-sizing: border-box;
+
+      font-family: 'Inter', sans-serif;
+
+    }
+ 
+    body {
+
+      background: #f8fafc;
+
+      color: #0f172a;
+
+      display: flex;
+
+      height: 100vh;
+
+    }
+ 
+    /* ===== SIDEBAR ===== */
+
+    .sidebar {
+
+      width: 240px;
+
+      background: #0f172a;
+
+      color: #fff;
+
+      padding: 20px;
+
+    }
+ 
+    .logo {
+
+      font-size: 24px;
+
+      font-weight: 700;
+
+      margin-bottom: 30px;
+
+      color: #38bdf8;
+
+    }
+ 
+    .nav a {
+
+      display: block;
+
+      padding: 12px 15px;
+
+      margin-bottom: 8px;
+
+      color: #cbd5f5;
+
+      text-decoration: none;
+
+      border-radius: 8px;
+
+      font-weight: 500;
+
+    }
+ 
+    .nav a.active,
+
+    .nav a:hover {
+
+      background: #1e293b;
+
+      color: #fff;
+
+    }
+ 
+    /* ===== MAIN AREA ===== */
+
+    .main {
+
+      flex: 1;
+
+      padding: 24px;
+
+      overflow-y: auto;
+
+    }
+ 
+    /* ===== TOP BAR ===== */
+
+    .topbar {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 24px;
+
+    }
+ 
+    .topbar h1 {
+
+      font-size: 22px;
+
+      font-weight: 600;
+
+    }
+ 
+    .profile {
+
+      background: #e2e8f0;
+
+      padding: 8px 14px;
+
+      border-radius: 999px;
+
+      font-weight: 500;
+
+    }
+ 
+    /* ===== KPI CARDS ===== */
+
+    .kpi-grid {
+
+      display: grid;
+
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+      gap: 20px;
+
+      margin-bottom: 30px;
+
+    }
+ 
+    .kpi {
+
+      background: #fff;
+
+      padding: 20px;
+
+      border-radius: 14px;
+
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+
+    }
+ 
+    .kpi span {
+
+      font-size: 14px;
+
+      color: #64748b;
+
+    }
+ 
+    .kpi h2 {
+
+      margin-top: 10px;
+
+      font-size: 26px;
+
+      font-weight: 700;
+
+    }
+ 
+    /* ===== TABLE ===== */
+
+    .card {
+
+      background: #fff;
+
+      padding: 20px;
+
+      border-radius: 14px;
+
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+
+    }
+ 
+    .card h3 {
+
+      margin-bottom: 16px;
+
+      font-size: 18px;
+
+    }
+ 
+    table {
+
+      width: 100%;
+
+      border-collapse: collapse;
+
+    }
+ 
+    th, td {
+
+      padding: 12px;
+
+      text-align: left;
+
+      font-size: 14px;
+
+    }
+ 
+    th {
+
+      background: #f1f5f9;
+
+      font-weight: 600;
+
+    }
+ 
+    tr:not(:last-child) td {
+
+      border-bottom: 1px solid #e2e8f0;
+
+    }
+ 
+    .status.low {
+
+      color: #dc2626;
+
+      font-weight: 600;
+
+    }
+ 
+    .status.ok {
+
+      color: #16a34a;
+
+      font-weight: 600;
+
+    }
+ 
+  </style>
+</head>
+<body>
+ 
+  <!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+<div class="logo">InventorySys</div>
+<nav class="nav">
+<a class="active" href="#">Dashboard</a>
+<a href="billingpos.html">Billing (POS)</a>
+<a href="Products.html">Products</a>
+<a href="inventory.html">Inventory</a>
+<a href="customer.html">Customers</a>
+<a href="report.html">Reports</a>
+<a href="setting.html">Settings</a>
+</nav>
+</aside>
+ 
+  <!-- ===== MAIN ===== -->
+<main class="main">
+ 
+    <!-- TOP BAR -->
+<div class="topbar">
+<h1>Dashboard</h1>
+<div class="profile">Admin</div>
+</div>
+ 
+    <!-- KPI CARDS -->
+<section class="kpi-grid">
+<div class="kpi">
+<span>Today's Sales</span>
+<h2>₹12,450</h2>
+</div>
+<div class="kpi">
+<span>Total Revenue</span>
+<h2>₹2,85,000</h2>
+</div>
+<div class="kpi">
+<span>Low Stock Items</span>
+<h2>5</h2>
+</div>
+<div class="kpi">
+<span>Pending Payments</span>
+<h2>₹18,200</h2>
+</div>
+</section>
+ 
+    <!-- RECENT ACTIVITY -->
+<section class="card">
+<h3>Low Stock Alert</h3>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Category</th>
+<th>Stock</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB Keyboard</td>
+<td>Electronics</td>
+<td>4</td>
+<td class="status low">Low</td>
+</tr>
+<tr>
+<td>Notebook A5</td>
+<td>Stationery</td>
+<td>120</td>
+<td class="status ok">In Stock</td>
+</tr>
+</tbody>
+</table>
+</section>
+ 
+  </main>
+<script src="dashboard.js"></script>
+</body>
+</html>
+
+ 

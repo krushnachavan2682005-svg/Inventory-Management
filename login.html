@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login | Inventory System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+ 
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+    body {
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg, #0f172a, #2563eb);
+    }
+ 
+    .login-container {
+      background:#fff;
+      width:380px;
+      padding:32px;
+      border-radius:18px;
+      box-shadow:0 20px 40px rgba(0,0,0,0.25);
+    }
+ 
+    .logo {
+      text-align:center;
+      margin-bottom:24px;
+    }
+ 
+    .logo h2 {
+      color:#2563eb;
+      font-weight:700;
+      margin-bottom:4px;
+    }
+ 
+    .logo p {
+      font-size:14px;
+      color:#64748b;
+    }
+ 
+    .form-group {
+      margin-bottom:16px;
+    }
+ 
+    .form-group label {
+      display:block;
+      font-size:14px;
+      font-weight:500;
+      margin-bottom:6px;
+    }
+ 
+    .form-group input {
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid #e2e8f0;
+      outline:none;
+      font-size:14px;
+    }
+ 
+    .form-group input:focus {
+      border-color:#2563eb;
+    }
+ 
+    .options {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:18px;
+      font-size:13px;
+    }
+ 
+    .options a {
+      color:#2563eb;
+      text-decoration:none;
+      font-weight:500;
+    }
+ 
+    .btn {
+      width:100%;
+      padding:12px;
+      background:#2563eb;
+      color:#fff;
+      border:none;
+      border-radius:12px;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+    }
+ 
+    .btn:hover {
+      background:#1d4ed8;
+    }
+ 
+    .footer-text {
+      text-align:center;
+      margin-top:18px;
+      font-size:13px;
+      color:#64748b;
+    }
+ 
+    @media(max-width:420px) {
+      .login-container { width:90%; }
+    }
+</style>
+</head>
+<body>
+ 
+  <div class="login-container">
+ 
+    <div class="logo">
+<h2>InventorySys</h2>
+<p>Login to your dashboard</p>
+</div>
+ 
+    <form>
+<div class="form-group">
+<label> Username</label>
+<input id="Username" type="text" placeholder="Enter Username" />
+</div>
+ 
+      <div class="form-group">
+<label>Password</label>
+<input id="password" type="password" placeholder="Enter your password" />
+</div>
+ 
+      <div class="options">
+<label><input type="checkbox" /> Remember me</label>
+<a href="#">Forgot password?</a>
+</div>
+ 
+      <button type="button" id="btn" class="btn">Login</button>
+</form>
+ 
+    <div class="footer-text">
+      © 2026 Inventory & Billing System
+</div>
+ 
+  </div>
+ 
+</body>
+
+<script>
+  
+let Username=document.getElementById("Username")
+let Password=document.getElementById("password")
+let button=document.getElementById("btn")
+button.addEventListener("click",function(){
+     console.log("hi");
+if(Username.value.toLowerCase()=="krushna"&& Password.value==2682){
+    window.location.replace("dashboard.html")
+
+   
+    
+}else{
+    alert("Invalid Password!")
+}
+})
+
+
+</script>
+</html>

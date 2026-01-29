@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      display: flex;
+      height: 100vh;
+      color: #0f172a;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 240px;
+      background: #0f172a;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      color: #38bdf8;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px;
+      color: #cbd5f5;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar a.active,
+    .sidebar a:hover {
+      background: #1e293b;
+      color: #fff;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      flex: 1;
+      padding: 24px;
+      overflow: auto;
+    }
+
+    /* ===== TOP BAR ===== */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .topbar h1 {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .btn {
+      background: #2563eb;
+      color: #fff;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    /* ===== FILTER BAR ===== */
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .filters input,
+    .filters select {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* ===== TABLE CARD ===== */
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 600;
+    }
+
+    tr:not(:last-child) td {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .in {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .low {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .actions button {
+      margin-right: 6px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .edit {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .delete {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* ===== MODAL (STATIC UI) ===== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-box {
+      background: #fff;
+      padding: 24px;
+      border-radius: 16px;
+      width: 420px;
+    }
+
+    .modal-box h3 {
+      margin-bottom: 16px;
+    }
+
+    .modal-box input,
+    .modal-box select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>InventorySys</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="billingpos.html">Billing (POS)</a>
+    <a class="active" href="#">Products</a>
+    <a href="inventory.html">Inventory</a>
+    <a href="customer.html">Customer</a>
+    <a href="report.html">Reports</a>
+    <a href="setting.html">Settings</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <h1>Products</h1>
+      <button id="button" class="btn">+ Add Product</button>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+      <input type="text" id="search" placeholder="Search product..." />
+      <select id="category">
+        <option>All-Categories</option>
+        <option value="electronics">Electronics</option>
+        <option value="Groceries">Groceries</option>
+        <option value="Clothing">Clothing & Apparel</option>
+        <option value="Kitchen">Homes & Kitchen</option>
+        <option value="Health">Health & Personal Care</option>
+        <option value="stationary">Stationery & Office Supplies</option>
+        <option value="Sports">Sports & Fitness</option>
+
+      </select>
+      <select id="status">
+        <option value="">Status</option>
+        <option value="Instock">In Stock</option>
+        <option value="Lowstock">Low Stock</option>
+      </select>
+    </div>
+
+    <!-- TABLE -->
+    <section class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>SKU</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+  <script>
+
+    fetch("http://localhost:3000/allproduct")
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(e => {
+          let tbody = document.getElementById("tbody");
+          let tr = document.createElement("tr")
+          tbody.appendChild(tr)
+          let Producttd = document.createElement("td")
+          let skutd = document.createElement("td")
+          let categorytd = document.createElement("td")
+          let pricetd = document.createElement("td")
+          let stocktd = document.createElement("td")
+          let stockstatus = document.createElement("span")
+          let stockstatustd = document.createElement("td")
+          let actiontd = document.createElement("td")
+          actiontd.classList.add("actions")
+          let btn1 = document.createElement("button")
+          let btn2 = document.createElement("button")
+          btn1.classList.add("edit")
+          btn1.innerText = "Edit"
+          btn2.classList.add("delete")
+          btn2.innerText = "Delete"
+          actiontd.appendChild(btn1)
+          actiontd.appendChild(btn2)
+
+          Producttd.innerText = e.productname
+          skutd.innerText = e.barcode
+          categorytd.innerText = e.catagory
+          pricetd.innerText = e.sellingprice
+          stocktd.innerText = e.initialstock
+          if (e.stockstatus === "Instock") {
+            stockstatus.classList.add("badge", "in")
+            stockstatus.innerText = e.stockstatus
+          } else {
+            stockstatus.classList.add("badge", "low")
+
+            stockstatus.innerText = e.stockstatus
+          }
+          stockstatustd.appendChild(stockstatus)
+
+
+          tr.appendChild(Producttd)
+          tr.appendChild(skutd)
+          tr.appendChild(categorytd)
+          tr.appendChild(pricetd)
+          tr.appendChild(stocktd)
+          tr.appendChild(stockstatustd)
+          tr.appendChild(actiontd)
+
+          // Edit
+          btn1.addEventListener("click", () => {
+
+             window.location.href = `editproduct.html?id=${e.id}`;
+            
+
+          })
+
+
+
+
+
+
+
+
+
+
+          // Delete 
+          btn2.addEventListener("click", function () {
+            console.log("clikc");
+
+            fetch(`http://localhost:3000/delete-product/${e.id}`, {
+              method: "DELETE"
+            })
+              .then(res => res.json())
+              .then(data => {
+
+                tr.remove()
+                alert(data.message);
+              })
+              .catch(err => console.error(err));
+          })
+
+        });
+
+      })
+    let search = document.getElementById("search")
+    search.addEventListener("input", function () {
+      let value = search.value.toLowerCase()
+      let t = document.querySelectorAll("tbody tr");
+
+
+      t.forEach(e => {
+        let product = e.cells[0].innerText.toLowerCase();
+        let catagory = e.cells[2].innerText.toLowerCase();
+        let price = e.cells[3].innerText.toLowerCase();
+
+        if (product.includes(value) || catagory.includes(value) || price.includes(value)) {
+          e.style.display = ""
+        }
+        else {
+          e.style.display = "none"
+        }
+      })
+
+
+    })
+    let catagoryselect = document.getElementById("category")
+    catagoryselect.addEventListener("change", function () {
+      let value = catagoryselect.value.toLowerCase()
+      let t = document.querySelectorAll("tbody tr");
+      t.forEach(e => {
+        let catagory = e.cells[2].innerText.toLowerCase();
+        if (catagoryselect.value.toLowerCase() == "all-categories") {
+          e.style.display = ""
+        }
+        else if (catagory.includes(value)) {
+          e.style.display = ""
+        } else {
+          e.style.display = "none"
+        }
+      })
+
+    })
+    let status = document.getElementById("status");
+
+    status.addEventListener("change", function () {
+      let value = status.value.toLowerCase();
+      let rows = document.querySelectorAll("tbody tr");
+
+      rows.forEach(row => {
+        let statusText = row.cells[5].innerText.toLowerCase();
+
+        if (value === "") {
+          row.style.display = "";
+        }
+        else if (statusText.includes(value)) {
+          row.style.display = "";
+        }
+        else {
+          row.style.display = "none";
+        }
+      });
+    });
+    let addproduct = document.getElementById("button")
+    addproduct.addEventListener("click", function () {
+      window.location.replace("AddingProduct.html")
+    })
+
+  </script>
+</body>
+
+</html>
